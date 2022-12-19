@@ -14,6 +14,8 @@ class Person(Base):
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     username = Column(String(250), nullable=False)
+    first_name=Column(String(250), nullable=False)
+    last_name=Column(String(250), nullable=False)
 
 class Post(Base):
     __tablename__="post"
@@ -23,7 +25,14 @@ class Post(Base):
 
 class Followers(Base):
     __tablename__="followers"
-    
+    id= Column(Integer, primary_key=True)
+    following_user_id: Column(String(250), ForeignKey('person.username'))
+
+class post_media(Base):
+    __tablename__="media"
+    id=Column(Integer, primary_key=True)
+    post_id=Column(Integer, ForeignKey('post.id'))
+    media_file=Column(String(250), nullable=False)
 
 class Address(Base):
     __tablename__ = 'address'
@@ -35,6 +44,13 @@ class Address(Base):
     post_code = Column(String(250), nullable=False)
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
+
+class Comment(Base):
+    __tablename__='comment'
+    id = Column(Integer, primary_key=True)
+    comment_text = Column(String(250), nullable=False)
+    author_id= Column(Integer, ForeignKey('person.id'))
+    post_id=Column(Integer, ForeignKey('post.id'))
 
     def to_dict(self):
         return {}
