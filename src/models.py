@@ -13,7 +13,17 @@ class Person(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    username = Column(String(250), nullable=False)
+
+class Post(Base):
+    __tablename__="post"
+    id = Column(Integer, primary_key=True)
+    post_created_by = Column(String(250), ForeignKey('person.username'))
+    person_id = Column(Integer, ForeignKey('person.id'))
+
+class Followers(Base):
+    __tablename__="followers"
+    
 
 class Address(Base):
     __tablename__ = 'address'
